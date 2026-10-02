@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEVRAAJ — Royal Indian Wear</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f7f5f1;color:#171717}
+header{background:#111;color:#fff;padding:18px 6%;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:5}
+.logo{font-size:25px;letter-spacing:4px;font-weight:700}.cart{cursor:pointer;font-size:15px}
+.hero{padding:65px 7%;background:#181818;color:white;text-align:center}.hero h1{font-size:44px;margin:0 0 12px;letter-spacing:3px}.hero p{color:#ddd;font-size:17px}
+.btn{border:0;background:#111;color:#fff;padding:13px 20px;border-radius:4px;cursor:pointer;font-weight:700}.hero .btn{background:#fff;color:#111}
+section{padding:42px 7%}.title{text-align:center;margin-bottom:28px}.title h2{font-size:28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.card{background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 3px 15px #00000012}.pic{height:280px;background:linear-gradient(135deg,#151515,#555);display:flex;align-items:center;justify-content:center;color:#fff;font-size:26px;letter-spacing:2px}
+.info{padding:18px}.info h3{margin:0 0 8px}.price{font-weight:700;margin:8px 0 14px}
+footer{background:#111;color:#ddd;text-align:center;padding:30px 7%;margin-top:20px}
+.modal{display:none;position:fixed;inset:0;background:#0008;z-index:10;align-items:center;justify-content:center;padding:20px}.box{background:#fff;max-width:430px;width:100%;padding:25px;border-radius:10px}.box input,.box select{width:100%;padding:12px;margin:7px 0 12px;border:1px solid #ccc;border-radius:5px}.close{float:right;cursor:pointer;font-size:22px}
+.notice{font-size:13px;color:#666;margin-top:12px}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">ZEVRAAJ</div>
+  <div class="cart" onclick="openCart()">🛒 Cart (<span id="count">0</span>)</div>
+</header>
+
+<div class="hero">
+  <h1>ZEVRAAJ</h1>
+  <p>Royal Indian Wear • Sherwani • Premium Outfits</p>
+  <button class="btn" onclick="document.getElementById('collection').scrollIntoView()">Shop Collection</button>
+</div>
+
+<section id="collection">
+  <div class="title"><h2>Featured Collection</h2><p>Royal looks, made for special moments.</p></div>
+  <div class="grid">
+    <div class="card">
+      <div class="pic">BLACK ROYAL</div>
+      <div class="info"><h3>Black Royal Sherwani</h3><div class="price">₹4,999</div><button class="btn" onclick="add('Black Royal Sherwani',4999)">Add to Cart</button></div>
+    </div>
+    <div class="card">
+      <div class="pic">IVORY</div>
+      <div class="info"><h3>Ivory Classic Sherwani</h3><div class="price">₹5,499</div><button class="btn" onclick="add('Ivory Classic Sherwani',5499)">Add to Cart</button></div>
+    </div>
+    <div class="card">
+      <div class="pic">MIDNIGHT</div>
+      <div class="info"><h3>Midnight Indo Jacket</h3><div class="price">₹3,999</div><button class="btn" onclick="add('Midnight Indo Jacket',3999)">Add to Cart</button></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <h3>ZEVRAAJ</h3>
+  <p>Premium Indian fashion.</p>
+  <p>Instagram • WhatsApp • Customer Support</p>
+</footer>
+
+<div class="modal" id="modal">
+  <div class="box">
+    <span class="close" onclick="closeCart()">×</span>
+    <h2>Your Cart</h2>
+    <div id="cartItems">Cart is empty.</div>
+    <hr>
+    <h3>Total: ₹<span id="total">0</span></h3>
+    <input id="name" placeholder="Full name">
+    <input id="phone" placeholder="Phone number">
+    <input id="address" placeholder="Delivery address">
+    <select id="size"><option>Select size</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+    <button class="btn" style="width:100%" onclick="placeOrder()">Place Order</button>
+    <div class="notice">Demo checkout: connect a verified payment gateway before accepting online payments.</div>
+  </div>
+</div>
+
+<script>
+let cart=[];
+function add(name,price){cart.push({name,price});document.getElementById('count').textContent=cart.length;alert(name+' added to cart!')}
+function openCart(){document.getElementById('modal').style.display='flex';render()}
+function closeCart(){document.getElementById('modal').style.display='none'}
+function render(){
+ let box=document.getElementById('cartItems');
+ if(!cart.length){box.textContent='Cart is empty.';document.getElementById('total').textContent='0';return}
+ box.innerHTML=cart.map((x,i)=>`<p>${x.name} — ₹${x.price} <button onclick="removeItem(${i})">Remove</button></p>`).join('');
+ document.getElementById('total').textContent=cart.reduce((a,x)=>a+x.price,0).toLocaleString('en-IN');
+}
+function removeItem(i){cart.splice(i,1);document.getElementById('count').textContent=cart.length;render()}
+function placeOrder(){
+ if(!cart.length)return alert('Please add a product first.');
+ if(!document.getElementById('name').value||!document.getElementById('phone').value||!document.getElementById('address').value)return alert('Please fill your name, phone and address.');
+ alert('Order details captured. Connect your real order/payment system before going live.');
+}
+</script>
+</body>
+</html>
